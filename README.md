@@ -1,2 +1,2 @@
-# agentic_rag_chatbot
+# Advanced_rag_agent
 Advanced RAG Agent using LangGraph
