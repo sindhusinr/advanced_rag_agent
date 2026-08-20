@@ -216,3 +216,31 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Chroma
+chroma_db/
+
+# Embedded/generated data
+data/*.pkl
+data/index/
+data/cache/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# LangGraph/LangChain
+.langgraph_api/
