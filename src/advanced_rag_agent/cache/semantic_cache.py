@@ -8,7 +8,7 @@ cache_store = []
 embedding_model = get_embedding_model()
 
 
-def get_cached_result(query: str, threshold: float = 0.90):
+def get_cached_result(query: str, threshold: float = 0.80):
 
     query_embedding = embedding_model.embed_query(query)
 
@@ -21,7 +21,7 @@ def get_cached_result(query: str, threshold: float = 0.90):
             [query_embedding],
             [item["embedding"]]
         )[0][0]
-
+        print(f"Comparing '{query}' " f"with '{item['query']}' "f"-> {score:.2f}")
         if score > best_score:
             best_score = score
             best_result = item
@@ -48,3 +48,4 @@ def save_to_cache(query: str, result):
             "result": result
         }
     )
+    print(f"Cache entries: {len(cache_store)}")

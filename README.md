@@ -2,6 +2,8 @@
 Advanced RAG Agent using LangGraph
 
 uv run python src/app.py
+uv run python -m advanced_rag_agent.app.py
+uv run streamlit run advanced_rag_agent.app_streamlit.py / streamlit run app_streamlit.py
 
           ┌──────────────────┐
                          │   PDF Upload UI  │
