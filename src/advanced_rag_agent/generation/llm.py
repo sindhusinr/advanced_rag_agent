@@ -7,8 +7,12 @@ from advanced_rag_agent.config.settings import (
 
 
 def get_llm():
+
     return ChatGroq(
         model=LLM_MODEL,
         api_key=GROQ_API_KEY,
         temperature=0.2,
+
+        # Enable token streaming
+        streaming=True,
     )
