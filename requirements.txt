@@ -35,3 +35,5 @@ sqlalchemy
 numpy
 
 pandas
+presidio-analyzer
+presidio-anonymizer

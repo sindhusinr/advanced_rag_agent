@@ -1,8 +1,12 @@
-from langchain_core.messages import SystemMessage
+from langchain_core.messages import (SystemMessage,AIMessage)
 
 from advanced_rag_agent.generation.llm import get_llm
 from advanced_rag_agent.tools.rag_tool import rag_tool
 from advanced_rag_agent.tools.human_assistance import human_assistance
+
+from advanced_rag_agent.guardrails.guardrail_manager import (
+    validate_input
+)
 
 tools = [rag_tool, human_assistance]
 
@@ -12,8 +16,28 @@ llm_with_tools = llm.bind_tools(tools)
 
 def agent_node(state):
 
+    # Get latest user message
+    user_query = state["messages"][-1].content
+
+    # Run Guardrails
+    validation = validate_input(user_query)
+
+    if not validation["allowed"]:
+
+        return {
+            "messages": [
+                AIMessage(
+                    content=f"""
+Request blocked by security guardrails.
+
+Reason: {validation['reason']}
+"""
+                )
+            ]
+        }
+
     system_message = SystemMessage(
-    content="""
+        content="""
 You are a helpful AI assistant.
 
 Guidelines:
@@ -28,13 +52,14 @@ When rag_tool is used:
 
 - Answer only using the retrieved document content.
 - Never use source0, source1, or source2.
-- For citation only use the page attached to the supporting chunk..
+- For citation only use the page attached to the supporting chunk.
 - Include inline citations when possible.
 - Always include a Sources section at the end.
 
 Example:
-Sources:
+
 ChunkedTejas is a chunk-based approach for parallelizing trace-driven simulation [Page 6].
+
 The technique achieved up to 5.39 speedup while maintaining only 0.2 percent error [Page 22].
 
 Sources:
@@ -55,7 +80,7 @@ generate report
 schedule meeting
 → use human_assistance
 """
-)
+    )
 
     messages = [system_message, *state["messages"]]
 

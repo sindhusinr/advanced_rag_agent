@@ -21,6 +21,7 @@ dependencies = [
     "ollama>=0.6.2",
     "pandas>=3.0.5",
     "pip-system-certs>=5.3",
+    "presidio-analyzer>=2.2.362",
     "pydantic>=2.13.4",
     "pymupdf>=1.28.2",
     "pypdf>=6.16.1",
